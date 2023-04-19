@@ -16,18 +16,18 @@
 % CHANGE AS NEEDED %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % deployment name
-depName = 'TEST';
+depName = 'DEP';
 
 % path to analysis folder
-dirPath_analysis = 'C:\Users\BeslinW\Desktop\Beakies\TWD_Testing\Testing_SWD_1-3';
+dirPath_analysis = 'D:\SWD_Results';
 
 % path to WAV file folder
 %%% For step 1: click compilation. Set empty to ignore this step.
-dirPath_audio = 'C:\Users\BeslinW\Desktop\Beakies\TWD_Testing\audio';
+dirPath_audio = 'D:\wav_files';
 
 % name of output folder for event detection results
 %%% For step 2: sperm whale detection. Set empty to ignore this step.
-dirName_detResults = 'results03';
+dirName_detResults = 'results01';
 
 % detection parameter directory path
 %%% Used in both steps 1 and 2

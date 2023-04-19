@@ -17,10 +17,10 @@
 % CHANGE AS NEEDED %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % path to analysis folder
-dirPath_analysis = 'C:\Users\BeslinW\Desktop\Beakies\TWD_Testing\Testing_BWD_1month';
+dirPath_analysis = 'D:\BWD_Results';
 
 % name of results folder
-dirName_detResults = 'results02';
+dirName_detResults = 'results01';
 
 % name of detection target
 targetName = 'Beaked';
@@ -28,7 +28,7 @@ targetName = 'Beaked';
 % event merging option
 %%% only used once, i.e. if validation spreadsheet doesn't exist yet
 eventMergeOpt = 'timebin'; %%% Options are 'none', 'timegap', 'calendar', or 'timebin'
-eventMergeVal = duration(0,1,0); %%% MATLAB duration object (for timegap and timebin) or string (for calendar)
+eventMergeVal = duration(0,10,0); %%% MATLAB duration object (for timegap and timebin) or string (for calendar)
 
 % max number of clicks to display
 nClicksMax = 10000;

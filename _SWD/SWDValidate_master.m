@@ -16,15 +16,15 @@
 % CHANGE AS NEEDED %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % path to analysis folder
-dirPath_analysis = 'C:\Users\BeslinW\Desktop\Beakies\TWD_Testing\Testing_SWD_1-3';
+dirPath_analysis = 'D:\SWD_Results';
 
 % name of results folder
-dirName_detResults = 'results03';
+dirName_detResults = 'results01';
 
 % event merging option
 %%% only used once, i.e. if validation spreadsheet doesn't exist yet
-eventMergeOpt = 'none'; %%% Options are 'none', 'timegap', 'calendar', or 'timebin'
-eventMergeVal = ''; %%% MATLAB duration object (for timegap and timebin) or string (for calendar)
+eventMergeOpt = 'timebin'; %%% Options are 'none', 'timegap', 'calendar', or 'timebin'
+eventMergeVal = duration(0,10,0); %%% MATLAB duration object (for timegap and timebin) or string (for calendar)
 
 % max number of clicks to display
 nClicksMax = 10000;

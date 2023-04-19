@@ -16,18 +16,18 @@
 % CHANGE AS NEEDED %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % deployment name
-depName = 'TEST';
+depName = 'DEP';
 
 % path to analysis folder
-dirPath_analysis = 'C:\Users\BeslinW\Desktop\Beakies\TWD_Testing\Testing_BWD_1month'; 
+dirPath_analysis = 'D:\BWD_Results'; 
 
 % path to WAV file folder
 %%% For step 1: click compilation. Set empty to ignore this step.
-dirPath_audio = 'C:\Users\BeslinW\Desktop\Beakies\TWD_Testing\audio_1month';
+dirPath_audio = 'D:\wav_files';
 
 % name of output folder for event detection results
 %%% For step 2: beaked whale detection. Set empty to ignore this step.
-dirName_detResults = 'results02';
+dirName_detResults = 'results01';
 
 % name of detection protocol
 %%% Used in Step 2 only
