@@ -40,16 +40,17 @@ detectorDir = '_BWD';
 % END CHANGE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-do_createPresenceTable(inFilePath, detectorDir)
+presence = do_createPresenceTable(inFilePath, detectorDir);
 
 
 %% ------------------------------------------------------------------------
-function do_createPresenceTable(inFilePath, detectorDir)
+function outTable = do_createPresenceTable(inFilePath, detectorDir)
     
     % define other variables
     %%% path to code directory
     dirPath_root = mfilename('fullpath');
     [dirPath_root,~,~] = fileparts(dirPath_root);
+    [dirPath_root,~,~] = fileparts(dirPath_root); % do it a second time to exit the scripts folder
     %%% species ID file path
     IDFilePath = fullfile(dirPath_root,detectorDir,'SpeciesCodes.xlsx');
     
@@ -79,9 +80,17 @@ function do_createPresenceTable(inFilePath, detectorDir)
     
     % save output table (overwrite if it already exists)
     if logical(exist(outFilePath,'file'))
-        delete(outFilePath)
+        promptStr = sprintf('"%s" already exists. Overwrite?', outFilePath);
+        opt = questdlg(promptStr, 'Overwrite File', 'Yes', 'No', 'No');
+        if strcmp(opt, 'Yes')
+            delete(outFilePath)
+        else
+            disp('File not saved')
+            return
+        end
     end
     writetable(outTable,outFilePath)
+    fprintf('Saved presence table to:\n"%s"\n', outFilePath)
 end
 
 %% readSpeciesIDs ---------------------------------------------------------

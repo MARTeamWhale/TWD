@@ -23,7 +23,7 @@ filePath = 'D:\TWD_analysis\DEP_yyyy_mm\results01\DEP_Target_Validated.xlsx';
 %%% - note that any occurence of these digits within an ID code will be
 %%%     considered a match. So for example, if "0" is specified, any code
 %%%     with the digit zero somewhere (like 20) will be included.
-codeNum = [0;8];
+codeNum = [0;6];
 
 % END CHANGE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
