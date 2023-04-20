@@ -3,7 +3,7 @@
 % function "runValidation"
 %   Written by WB, based on "beaked_automatic_overlay_combined_det_AMAR250" 
 %   by SBP and JS.
-%   Last updated Apr. 14, 2023, using MATLAB R2018b
+%   Last updated Apr. 20, 2023, using MATLAB R2018b
 %
 %   Description:
 %   Runs the interactive event validation/species ID process. This
@@ -32,8 +32,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %DEV NOTES
 % 2019/10/11
-% - This function is to be used by both BWD and SWD but still retains some
-% "Beaked" terminology. Be sure to change variable names as appropriate.
 % - Creation and maintenance of discriminator switcher window even in SWD 
 % is a waste since discriminator switching is useless in SWD
 
@@ -1084,7 +1082,7 @@ function createClickParamsFigData(hfClickParams,clickDiscrim)
     figPos = figPosOriginal;
     
     % define table dimensions
-    %%% Occurance table
+    %%% Occurrence table
     occurTableColWidths = {50, 80};
     occurTableWidth = sum([occurTableColWidths{:},2]);
     occurTableHeight = tableRowHeight*2 + 2;
@@ -1106,7 +1104,7 @@ function createClickParamsFigData(hfClickParams,clickDiscrim)
     
     % define UI component positions (top-down, i.e. assuming Y is measured
     % from top to bottom - this will be corrected later).
-    %%% Occurance
+    %%% Occurrence
     pos_txtOccur = [borderPad, borderPad-txtYPadCorrect, occurTableWidth, txtHeight];
     pos_tableOccur = [borderPad, yRelativeTo(pos_txtOccur), occurTableWidth, occurTableHeight];
     %%% Discrimination
@@ -1756,7 +1754,7 @@ end
 %% plotClick --------------------------------------------------------------
 function plotClick(hfClick,hfClickSeq,data,clickStarts,sortOpt,iSort,img,Fs,fRange,figNameBase,caller)
 % Plots the waveform and spectrogram of a single click, and also displays 
-% the occurence and maximum amplitude of nearby clicks as a stem plot.
+% the occurrence and maximum amplitude of nearby clicks as a stem plot.
 % Partially based on based on 
 % "beaked_automatic_overlay_combined_det_AMAR250"
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2002,7 +2000,7 @@ function showClickParams(hf,valTableTarget,paramPassTablesTarget,discrimPassMatT
     discrimCol(discrimPassInactive,:) = discrimColMat_PassInactive;
     discrimCol(discrimFailInactive,:) = discrimColMat_FailInactive;
     
-    % determine click occurance information
+    % determine click occurrence information
     tClickStart = tClickStartTarget(iClick);
     strDate = char(tClickStart,'yyyy-MM-dd');
     strTime = char(tClickStart,'HH:mm:ss.SSS');

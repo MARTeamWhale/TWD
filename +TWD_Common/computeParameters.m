@@ -2,7 +2,7 @@
 %
 % function "computeParameters"
 %   Written by WB, based on "parametersAMAR" by SBP and JS
-%   Last updated Oct. 12, 2022, using MATLAB R2018b
+%   Last updated Apr. 20, 2023, using MATLAB R2018b
 %
 %   Description:
 %   This is basically "parametersAMAR" rewritten in the style of the new
@@ -253,7 +253,7 @@ function ppSignal = compute_ppSignal(x,bw10db)
     % get min and max magnitudes
     xMax = max(x);
     xMin = min(x);
-    ppCount = xMax + abs(xMin); %??? should it not be xMax - xMin?
+    ppCount = xMax + abs(xMin); % only correct if xMin is negative!
     
     % convert to dB
     ppSignal = 20*log10(ppCount);
