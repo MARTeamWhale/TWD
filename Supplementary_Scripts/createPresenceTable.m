@@ -1,8 +1,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% function "createPresenceTable"
+% "createPresenceTable"
 %   Written by Wilfried Beslin
-%   Last updated Oct. 13, 2022, using MATLAB R2018b
+%   Last updated Apr. 20, 2023, using MATLAB R2018b
 %
 %   Description:
 %   Reads in a "Validated" spreadsheet produced by the "identifySpecies"
@@ -28,15 +28,23 @@
 %   logged in the results, this way there would be no need to for the user 
 %   to specify the folder here
 
-function createPresenceTable()
 
-    % INPUT - CHANGE AS NEEDED %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %%% full path to input "Validated" spreadsheet
-    inFilePath = 'C:\Users\BeslinW\Desktop\Beakies\TWD_Testing\Testing_BWD_1-3\results01\TEST_Beaked_Validated.xlsx';
-    %%% name of BWD or SWD folder, whichever is appropriate
-    detectorDir = 'BWD_v1-3a';
-    % END CHANGE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% INPUT - CHANGE AS NEEDED %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% full path to input "Validated" spreadsheet
+inFilePath = 'D:\TWD_results\results01\DEP_Target_Validated.xlsx';
+
+% name of BWD or SWD folder, whichever is appropriate
+detectorDir = '_BWD';
+
+% END CHANGE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+do_createPresenceTable(inFilePath, detectorDir)
+
+
+%% ------------------------------------------------------------------------
+function do_createPresenceTable(inFilePath, detectorDir)
     
     % define other variables
     %%% path to code directory

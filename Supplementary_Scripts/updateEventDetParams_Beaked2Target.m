@@ -1,8 +1,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% function "updateEventDetParams_Beaked2Target" 
+% "updateEventDetParams_Beaked2Target" 
 %   Written by Wilfried Beslin
-%   Last Updated Apr. 13, 2023, using MATLAB R2018b
+%   Last Updated Apr. 20, 2023, using MATLAB R2018b
 %
 %   Description:
 %   Replaces the old beaked-whale-centric names of the criteria within 
@@ -15,14 +15,21 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function updateEventDetParams_Beaked2Target()
 
-    % INPUT - CHANGE AS NEEDED %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %%% full path to root folder containing EventDetParams spreadsheets
-    %%% (This will typically be a DetectionCriteria folder)
-    dirPath = 'C:\Users\BeslinW\Desktop\Beakies\TWD_1-3_DEV\WIP2\_BWD_v1-3a\DetectionCriteria';
-    % END CHANGE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    
+% INPUT - CHANGE AS NEEDED %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% full path to root folder containing EventDetParams spreadsheets
+%%% This will typically be a DetectionCriteria folder
+dirPath = 'C:\Users\BeslinW\Desktop\Beakies\TWD_1-3_DEV\WIP2\_BWD_v1-3a\DetectionCriteria';
+
+% END CHANGE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+do_updateEventDetParams_Beaked2Target(dirPath);
+
+
+%% ------------------------------------------------------------------------
+function do_updateEventDetParams_Beaked2Target(dirPath)    
     % get all EventDetParams Excel files
     paramFilePaths = TWD_Common.Utilities.listFiles(dirPath, 'xlsx', 'Recursive',true, 'NameMustContain','EventDetParams');
     numFiles = numel(paramFilePaths);

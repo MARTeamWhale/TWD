@@ -2,21 +2,21 @@
 %
 % "subsetValidated"
 %   Written by Wilfried Beslin
-%   Last updated Jun. 3, 2019, using MATLAB R2016b
+%   Last updated Apr. 20, 2023, using MATLAB R2018b
 %
 %   Description:
-%   Script for isolating a subset of events in a "validated" spreadsheet
-%   based on species ID code. The output is saved as a new spreadsheet.
-%   Each output sheet will have a unique filename, so it's possible to
-%   create new subsets without overwriting old ones.
+%   Isolates a subset of events in a "validated" spreadsheet based on
+%   species ID code. The output is saved as a new spreadsheet. Each output
+%   sheet will have a unique filename, so it's possible to create new
+%   subsets without overwriting old ones.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 % CHANGE AS NEEDED %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
+
 % full path to validation spreadsheet to subset
-filePath = 'C:\Users\BeslinW\Documents\BeakedWhales_Analyses\BWD_TEST\results\TEST_Beaked_Validated.xlsx';
+filePath = 'D:\TWD_results\results01\DEP_Target_Validated.xlsx';
 
 % species codes to include
 %%% - must be a column vector, use ";" to separate multiple digits
@@ -28,33 +28,39 @@ codeNum = [0;8];
 % END CHANGE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-% load spreadsheet
-inData = readtable(filePath);
-nRows = height(inData);
+valSubset = do_subsetValidated(filePath, codeNum);
 
-% convert codes to strings
-codeStr = cellstr(num2str(codeNum));
-SIDStr = cellstr(num2str(inData.Species));
 
-% get rows containing species ID codes of interest
-keep = contains(SIDStr,codeStr);
+%% ------------------------------------------------------------------------
+function outData = do_subsetValidated(filePath, codeNum)
+    % load spreadsheet
+    inData = readtable(filePath);
 
-% create subset of table
-outData = inData(keep,:);
+    % convert codes to strings
+    codeStr = cellstr(num2str(codeNum));
+    SIDStr = cellstr(num2str(inData.Species));
 
-% save output to file (get unique filename to avoid overwriting existing
-% files)
-[dirPath,inFileName,fileExt] = fileparts(filePath);
-outFileSuffix = '_Sub';
-outFileNum = 1;
-fileSaved = false;
-while ~fileSaved
-    outFileName = [inFileName,outFileSuffix,num2str(outFileNum)];
-    outFilePath = fullfile(dirPath,[outFileName,fileExt]);
-    if logical(exist(outFilePath,'file'))
-        outFileNum = outFileNum + 1;
-    else
-        writetable(outData,outFilePath)
-        fileSaved = true;
+    % get rows containing species ID codes of interest
+    keep = contains(SIDStr,codeStr);
+
+    % create subset of table
+    outData = inData(keep,:);
+
+    % save output to file (get unique filename to avoid overwriting
+    % existing files)
+    [dirPath, inFileName, fileExt] = fileparts(filePath);
+    outFileSuffix = '_Sub';
+    outFileNum = 1;
+    fileSaved = false;
+    while ~fileSaved
+        outFileName = [inFileName,outFileSuffix,num2str(outFileNum)];
+        outFilePath = fullfile(dirPath,[outFileName,fileExt]);
+        if logical(exist(outFilePath,'file'))
+            outFileNum = outFileNum + 1;
+        else
+            writetable(outData,outFilePath)
+            fprintf('Saved subset validations table to:\n"%s"\n', outFilePath)
+            fileSaved = true;
+        end
     end
 end

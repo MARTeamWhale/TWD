@@ -1,27 +1,38 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% function "cleanMetadata" 
+% "cleanMetadata" 
 %   Written by Wilfried Beslin
-%   Last Updated Nov. 7, 2019, using MATLAB R2018b
+%   Last Updated Apr. 20, 2023, using MATLAB R2018b
 %
 %   Description:
-%   Removes unwanted Triton detector output files, leaving only .c and .cTg
+%   Removes unwanted Triton detector output files from "metadata" folders, 
+%   such as gTg, us, w, and ccc. Note that this code will only search for
+%   files within folders called "metadata".
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-function cleanMetadata()
+% INPUT - CHANGE AS NEEDED %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    % INPUT - CHANGE AS NEEDED %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %%% full path to metadata folder
-    dirPath = 'C:\Users\BeslinW\Documents\BeakedWhales_Analyses\BWD_TEST_subdirs\metadata';
-    %%% decide if subfolders should also be cleaned (all levels)
-    includeSub = true;
-    %%% list of unwanted file types (case insensitive)
-    extRemove = {'gtg','us','w','ccc'};
-    % END CHANGE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    
-    
+% full path to metadata folder
+dirPath = 'D:\BWD_Results\metadata';
+
+% decide if subfolders should also be cleaned (all levels)
+includeSub = true;
+
+% list of unwanted file types (case insensitive)
+%%% default is {'gtg','us','w','ccc'}
+extRemove = {'gtg','us','w','ccc'}; 
+
+% END CHANGE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+do_cleanMetadata(dirPath, includeSub, extRemove)
+
+
+%%  -----------------------------------------------------------------------
+function do_cleanMetadata(dirPath, includeSub, extRemove)
+
     % prompt user to confirm operation
     if includeSub
         fStr = 'folder and all its subfolders';
@@ -32,37 +43,14 @@ function cleanMetadata()
     opt = questdlg(promptStr,'Warning','Yes','No','Yes');
     
     % clean folder(s)
-    if strcmp(opt,'Yes')
-        doClean(dirPath,extRemove,includeSub);
-        disp('done')
-    end
-end
-
-%% ------------------------------------------------------------------------
-function doClean(dirPath,extRemove,includeSub)
-    fprintf('Cleaning %s\n',dirPath);
-    nExt = numel(extRemove);
-    for ii = 1:nExt
-        extii = extRemove{ii};
-        delStr = [dirPath,filesep,'*.',extii];
-        delete(delStr)
-    end
-    
-    % check subfolders
-    if includeSub
-        % get subdirectories
-        dirInfoFull = dir(dirPath);
-        subdirs = {dirInfoFull.name}';
-        subdirs = subdirs([dirInfoFull.isdir]);
-        dotExpr = '^(\.+)$'; % regular expression to find a just series of dots
-        dotRegExOut = regexp(subdirs,dotExpr,'match');
-        notDots = cellfun('isempty',dotRegExOut);
-        subdirs = subdirs(notDots);
-        subdirPaths = fullfile(dirPath,subdirs);
-
-        % clean files in subdirectories
-        for ii = 1:numel(subdirPaths)
-            doClean(subdirPaths{ii},extRemove,includeSub);
-        end 
+    if strcmp(opt, 'Yes')
+        filesToDelete = TWD_Common.Utilities.listFiles(dirPath, extRemove, includeSub, 'MustContain','(metadata[/\\][^/\\]+)$');
+        if ~isempty(filesToDelete)
+            fprint('Removing the following files:\n    %s', strjoin(filesToDelete, '\n    '))
+            delete(filesToDelete)
+            disp('done')
+        else
+            disp('Found nothing to delete.')
+        end
     end
 end
