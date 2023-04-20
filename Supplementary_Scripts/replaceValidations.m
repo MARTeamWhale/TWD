@@ -16,7 +16,7 @@
 % INPUT - CHANGE AS NEEDED %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % path to results folder containing spreadsheets
-dirPath = 'D:\TWD_results\results01';
+dirPath = 'D:\TWD_analysis\DEP_yyyy_mm\results01';
 
 % Name of original validation spreadsheet
 fileName_Master = 'DEP_Target_Validated.xlsx';

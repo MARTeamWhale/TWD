@@ -16,7 +16,7 @@
 % CHANGE AS NEEDED %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % full path to validation spreadsheet to subset
-filePath = 'D:\TWD_results\results01\DEP_Target_Validated.xlsx';
+filePath = 'D:\TWD_analysis\DEP_yyyy_mm\results01\DEP_Target_Validated.xlsx';
 
 % species codes to include
 %%% - must be a column vector, use ";" to separate multiple digits

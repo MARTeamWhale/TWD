@@ -5,19 +5,21 @@
 %   Last Updated Apr. 20, 2023, using MATLAB R2018b
 %
 %   Description:
-%   Removes unwanted Triton detector output files from "metadata" folders, 
-%   such as gTg, us, w, and ccc. Note that this code will only search for
-%   files within folders called "metadata".
+%   Removes unwanted Triton detector output files, such as gTg, us, w, and
+%   ccc. This script can also clean multiple folders in a root path at
+%   once, but in this case, it will only search for folders called
+%   "metadata".
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 % INPUT - CHANGE AS NEEDED %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% full path to metadata folder
-dirPath = 'D:\BWD_Results\metadata';
+% full path to the folder or root path to be cleaned
+dirPath = 'D:\TWD_analysis\DEP_yyyy_mm\metadata';
 
-% decide if subfolders should also be cleaned (all levels)
+% decide if subfolders should be cleaned. 
+% If "true", this option will only look for folders called "metadata".
 includeSub = true;
 
 % list of unwanted file types (case insensitive)
@@ -35,19 +37,31 @@ function do_cleanMetadata(dirPath, includeSub, extRemove)
 
     % prompt user to confirm operation
     if includeSub
-        fStr = 'folder and all its subfolders';
+        fStr = 'all "metadata" folders in this path';
     else
-        fStr = 'folder';
+        fStr = 'this folder';
     end
-    promptStr = sprintf('%s\n\nAre you sure you want to delete the following file types from this %s?\n\n%s',dirPath,fStr,strjoin(extRemove,', '));
+    promptStr = sprintf('%s\n\nAre you sure you want to delete the following file types from %s?\n\n%s', dirPath, fStr, strjoin(extRemove,', '));
     opt = questdlg(promptStr,'Warning','Yes','No','Yes');
     
     % clean folder(s)
     if strcmp(opt, 'Yes')
-        filesToDelete = TWD_Common.Utilities.listFiles(dirPath, extRemove, includeSub, 'MustContain','(metadata[/\\][^/\\]+)$');
-        if ~isempty(filesToDelete)
-            fprint('Removing the following files:\n    %s', strjoin(filesToDelete, '\n    '))
-            delete(filesToDelete)
+        if includeSub
+            filesToDelete = TWD_Common.Utilities.listFiles(dirPath, extRemove, 'Recursive',true, 'MustContain','([/\\]metadata[/\\][^/\\]+)$');
+        else
+            filesToDelete = TWD_Common.Utilities.listFiles(dirPath, extRemove, 'Recursive',false);
+        end
+        numFiles = numel(filesToDelete);
+        if numFiles > 0
+            for ii = 1:numFiles
+                file_ii = filesToDelete{ii};
+                fprintf('Removing file "%s"\n', file_ii)
+                try
+                    delete(file_ii)
+                catch ME
+                    warning('Failed to remove file:\n%s', ME.message)
+                end
+            end
             disp('done')
         else
             disp('Found nothing to delete.')

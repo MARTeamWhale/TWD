@@ -20,7 +20,7 @@
 
 % full path to root folder containing EventDetParams spreadsheets
 %%% This will typically be a DetectionCriteria folder
-dirPath = 'C:\Users\BeslinW\Desktop\Beakies\TWD_1-3_DEV\WIP2\_BWD_v1-3a\DetectionCriteria';
+dirPath = 'D:\TWD-1.3.0\_BWD\DetectionCriteria';
 
 % END CHANGE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

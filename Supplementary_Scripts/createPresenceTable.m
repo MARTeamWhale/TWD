@@ -32,7 +32,7 @@
 % INPUT - CHANGE AS NEEDED %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % full path to input "Validated" spreadsheet
-inFilePath = 'D:\TWD_results\results01\DEP_Target_Validated.xlsx';
+inFilePath = 'D:\TWD_analysis\DEP_yyyy_mm\results01\DEP_Target_Validated.xlsx';
 
 % name of BWD or SWD folder, whichever is appropriate
 detectorDir = '_BWD';
