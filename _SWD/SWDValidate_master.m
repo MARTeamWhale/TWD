@@ -3,7 +3,7 @@
 % "SWDValidate_master"
 %   Written by Wilfried Beslin
 %   For TWD version 1.3
-%   Revised 2023/04/19
+%   Revised 2023/04/20
 %
 %   Despcription:
 %   Interface script for running interactive sperm whale click 
@@ -16,7 +16,7 @@
 % CHANGE AS NEEDED %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % path to analysis folder
-dirPath_analysis = 'D:\SWD_Results';
+dirPath_analysis = 'D:\SWD_analysis\DEP_yyyy_mm';
 
 % name of results folder
 dirName_detResults = 'results01';

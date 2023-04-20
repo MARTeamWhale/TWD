@@ -3,7 +3,7 @@
 % "BWDValidate_master"
 %   Written by Wilfried Beslin
 %   For TWD version 1.3
-%   Revised 2023/04/19
+%   Revised 2023/04/20
 %
 %   Despcription:
 %   Interface script for running WB's version of the interactive beaked 
@@ -17,7 +17,7 @@
 % CHANGE AS NEEDED %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % path to analysis folder
-dirPath_analysis = 'D:\BWD_Results';
+dirPath_analysis = 'D:\TWD_analysis\DEP_yyyy_mm';
 
 % name of results folder
 dirName_detResults = 'results01';

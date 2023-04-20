@@ -3,7 +3,7 @@
 % "BWD_master"
 %   Written by Wilfried Beslin
 %   For TWD version 1.3
-%   Revised 2023/04/19
+%   Revised 2023/04/20
 %
 %   Despcription:
 %   Interface script for running WB's version of the beaked whale detector.
@@ -19,7 +19,7 @@
 depName = 'DEP';
 
 % path to analysis folder
-dirPath_analysis = 'D:\BWD_Results'; 
+dirPath_analysis = 'D:\BWD_analysis\DEP_yyyy_mm'; 
 
 % path to WAV file folder
 %%% For step 1: click compilation. Set empty to ignore this step.
