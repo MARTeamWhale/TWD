@@ -1,5 +1,6 @@
 # TWD
 Toothed Whale Detector (tentative name)
+Version 1.3
 
 ***NOTE: This project is under development!***
 
