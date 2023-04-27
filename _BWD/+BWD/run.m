@@ -2,7 +2,7 @@
 %
 % function "BWD.run"
 %   Written by Wilfried Beslin
-%   Last updated Oct. 13, 2022, using MATLAB R2018b
+%   Last updated Apr. 27, 2023, using MATLAB R2018b
 %
 %   Description:
 %   Main function for running WB's version of the beaked whale click
@@ -33,7 +33,7 @@ function run(...
 
     % run click compilation
     if doClickComp
-        BWD.compileClicks(dirPath_analysis,dirPath_audio,depName,nfft,nMATClicksMax,segDur);
+        BWD.compileClicks(dirPath_root, dirPath_analysis,dirPath_audio,depName,nfft,nMATClicksMax,segDur);
     end
     
     % run event detection

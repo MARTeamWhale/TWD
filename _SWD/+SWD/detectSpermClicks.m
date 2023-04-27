@@ -2,7 +2,7 @@
 %
 % function "detectSpermClicks"
 %   Written by Wilfried Beslin
-%   Last updated Apr. 14, 2023, using MATLAB R2018b
+%   Last updated Apr. 27, 2023, using MATLAB R2018b
 %
 %   Description:
 %   Runs basic sperm whale click detection (CABLE detector) followed by 
@@ -35,7 +35,7 @@
 % Maybe add waitbar too
 %}
 
-function detectSpermClicks(dirPath_root,dirPath_analysis,dirPath_audio,detProtocol,depName,nfft,nClicksMax,segDur,varargin)
+function detectSpermClicks(dirPath_root, dirPath_analysis, dirPath_audio, detProtocol, depName, nfft, nClicksMax, segDur, varargin)
 
     % get path to detection criteria directory
     dirPath_SpermDetCrit = fullfile(dirPath_root,'DetectionCriteria',detProtocol);
@@ -48,7 +48,21 @@ function detectSpermClicks(dirPath_root,dirPath_analysis,dirPath_audio,detProtoc
     wavInfo1 = audioinfo(wavFilePaths{1});
     FsAMAR = wavInfo1.SampleRate;
     
-    % determine filter cutoff frequencies based on dataset sampling rate
+    % load filter cutoff frequencies
+    load(fullfile(dirPath_root,'FilterCutoffs.mat'), 'filtdata');
+    
+    % determine standard filter cutoff frequencies based on dataset sampling rate
+    iFiltCutoff = filtdata.SamplingRate == FsAMAR;
+    switch sum(iFiltCutoff)
+        case 1
+            Fc1 = filtdata.Cutoff1;
+            Fc2 = filtdata.Cutoff2(iFiltCutoff);
+        case 0
+            error('No bandpass filter cutoff frequencies have been specified for Fs=%d Hz. They must be added to "FilterCutoffs.mat" before click compilation can be run on this dataset.', Fs)
+        otherwise
+            error('More than one bandpass filter cutoff frequency specification exists for Fs=%d Hz; cannot determine which one to use.', Fs)
+    end
+    %{
     switch FsAMAR
         case {250000, 256000}
             Fc1 = 2000;
@@ -56,6 +70,7 @@ function detectSpermClicks(dirPath_root,dirPath_analysis,dirPath_audio,detProtoc
         otherwise
             error('Unsupported sampling rate')
     end
+    %}
     
     % process onThresh and offThresh
     if numel(varargin) == 1

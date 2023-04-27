@@ -2,7 +2,7 @@
 %
 % function "extractFilterClick"
 %   Written by WB, based on "extracFilterTimeseriesAMAR250" by SBP and JS
-%   Last updated Nov. 15, 2019, using MATLAB R2018b
+%   Last updated Apr. 27, 2023, using MATLAB R2018b
 %
 %   Description:
 %   Extracts audio samples from a WAV file for one click, and applies a 
@@ -15,14 +15,14 @@
 % - The double call to audioread is inefficient. If noise samples are
 %   always taken immediately before the click, could use just one call.
 
-function [yFiltClick,yNFiltClick] = extractFilterClick(...
-    wavFilePath,clickPos,noisePos)
+function [yFiltClick, yNFiltClick] = extractFilterClick(...
+    wavFilePath, clickPos, noisePos, filtdata)
 
     % define channel
     c = 1;
     
     % get click waveform
-    [y,Fs] = audioread(wavFilePath,clickPos,'native');
+    [y, Fs] = audioread(wavFilePath, clickPos, 'native');
     y = double(y); 
     %%% original class is a signed int type corresponding to bits-per-
     %%% sample (usually 16 - so get "int16"). Might be worth keeping 
@@ -41,6 +41,18 @@ function [yFiltClick,yNFiltClick] = extractFilterClick(...
     yN = yN.';
 
     % create bandpass filter
+    %%% isolate appropriate filter cutoff frequencies from list
+    iFiltCutoff = filtdata.SamplingRate == Fs;
+    switch sum(iFiltCutoff)
+        case 1
+            Fc1 = filtdata.Cutoff1;
+            Fc2 = filtdata.Cutoff2(iFiltCutoff);
+        case 0
+            error('No bandpass filter cutoff frequencies have been specified for Fs=%d Hz. They must be added to "FilterCutoffs.mat" before click compilation can be run on this dataset.', Fs)
+        otherwise
+            error('More than one bandpass filter cutoff frequency specification exists for Fs=%d Hz; cannot determine which one to use.', Fs)
+    end
+    %{
     %%% filter cutoff frequencies
     Fc1 = 5000; 
     %Fc1 = 4000; % TMP CHANGED FOR SPERMS
@@ -63,6 +75,7 @@ function [yFiltClick,yNFiltClick] = extractFilterClick(...
         otherwise
             error('Unsupported sampling rate')
     end
+    %}
     %%% filter order (full, not half)
     ord = 10;
     %%% filter coefficients

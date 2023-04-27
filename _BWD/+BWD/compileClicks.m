@@ -2,7 +2,7 @@
 %
 % function "compileClicks"
 %   Written by WB, based on "analyze_HARP_AMAR250" by SBP and JS
-%   Last updated Apr. 14, 2023, using MATLAB R2018b
+%   Last updated Apr. 27, 2023, using MATLAB R2018b
 %
 %   Description:
 %   Extracts click data from WAV files based on Triton detections (cTg 
@@ -13,7 +13,7 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   
 
-function compileClicks(dirPath_analysis,dirPath_audio,depName,nfft,nClicksMax,segDur)
+function compileClicks(dirPath_root, dirPath_analysis, dirPath_audio, depName, nfft, nClicksMax, segDur)
     
     % define parameters for click extraction and spectral analysis
     clickOffset_sec = [0.001, 0.004]; % length of buffer before and after click, in seconds (previously hardcoded to 250 and 999 samples)
@@ -27,6 +27,9 @@ function compileClicks(dirPath_analysis,dirPath_audio,depName,nfft,nClicksMax,se
     [filePaths_ctg, fileNames_ctg] = TWD_Common.Utilities.listFiles(dirPath_metadata, 'cTg', 'Recursive',true);
     [filePaths_wav, fileNames_wav] = TWD_Common.Utilities.listFiles(dirPath_audio, 'wav', 'Recursive',true);
     nFiles = numel(fileNames_wav);
+    
+    % load filter cutoff frequencies
+    load(fullfile(dirPath_root,'FilterCutoffs.mat'), 'filtdata')
     
     % define output directory and check if there is existing output
     if isfolder(dirPath_out)
@@ -85,7 +88,7 @@ function compileClicks(dirPath_analysis,dirPath_audio,depName,nfft,nClicksMax,se
                 nClicksjj = iClicksjj(end) - iClicksjj(1) + 1;
                 fprintf('Recording %d/%d, part %d/%d: extracting %d clicks\n',ii,nFiles,jj,nPartsii,nClicksjj)
                 
-                [clickDatajj,recStartjj] = computeClickData(filePathii_wav,segDur,clickStartEndTimesjj,clickOffset_sec,noiseOffset_sec,nfft);
+                [clickDatajj,recStartjj] = computeClickData(filePathii_wav, segDur, clickStartEndTimesjj, clickOffset_sec, noiseOffset_sec, nfft, filtdata);
                 
                 % patch for very rare case where all clicks detected by
                 % Triton were out-of-bounds, resulting in empty data
@@ -109,7 +112,7 @@ function compileClicks(dirPath_analysis,dirPath_audio,depName,nfft,nClicksMax,se
 end
 
 %% computeClickData -------------------------------------------------------
-function [clickData,recStartDT] = computeClickData(filePath_wav,segDur,clickStartEndTimes,clickTimeOffset,noiseTimeOffset,nfft)
+function [clickData,recStartDT] = computeClickData(filePath_wav, segDur, clickStartEndTimes, clickTimeOffset, noiseTimeOffset, nfft, filtdata)
 % Returns struct of click parameters
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -200,9 +203,10 @@ function [clickData,recStartDT] = computeClickData(filePath_wav,segDur,clickStar
     xClickFilt = NaN(nClicks,nClickSamplesExtended);
     xNoiseFilt = NaN(nClicks,nNoiseSamples);
     for ii = 1:nClicks
-        [xClickFiltii,xNoiseFiltii] = BWD.extractFilterClick(filePath_wav,...
+        [xClickFiltii, xNoiseFiltii] = BWD.extractFilterClick(filePath_wav,...
             [clickPos.StartSamplesExtended(ii),clickPos.EndSamplesExtended(ii)],...
-            [noisePos.StartSamples(ii),noisePos.EndSamples(ii)]);
+            [noisePos.StartSamples(ii),noisePos.EndSamples(ii)],...
+            filtdata);
         xClickFilt(ii,:) = xClickFiltii;
         xNoiseFilt(ii,:) = xNoiseFiltii;
     end
