@@ -45,7 +45,7 @@ function [yFiltClick, yNFiltClick] = extractFilterClick(...
     iFiltCutoff = filtdata.SamplingRate == Fs;
     switch sum(iFiltCutoff)
         case 1
-            Fc1 = filtdata.Cutoff1;
+            Fc1 = filtdata.Cutoff1(iFiltCutoff);
             Fc2 = filtdata.Cutoff2(iFiltCutoff);
         case 0
             error('No bandpass filter cutoff frequencies have been specified for Fs=%d Hz. They must be added to "FilterCutoffs.mat" before click compilation can be run on this dataset.', Fs)
