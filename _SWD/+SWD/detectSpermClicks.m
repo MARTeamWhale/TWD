@@ -55,8 +55,8 @@ function detectSpermClicks(dirPath_root, dirPath_analysis, dirPath_audio, detPro
     iFiltCutoff = filtdata.SamplingRate == FsAMAR;
     switch sum(iFiltCutoff)
         case 1
-            Fc1 = filtdata.Cutoff1(iFiltCutoff);
-            Fc2 = filtdata.Cutoff2(iFiltCutoff);
+            Fc1 = filtdata.CutoffFreq1(iFiltCutoff);
+            Fc2 = filtdata.CutoffFreq2(iFiltCutoff);
             ord = filtdata.Order(iFiltCutoff);
         case 0
             error('No bandpass filter cutoff frequencies have been specified for Fs=%d Hz. They must be added using "editFilterParams" before click compilation can be run on this dataset.', Fs)
