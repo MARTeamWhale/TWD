@@ -1,2 +1,5 @@
-#MATLAB autosave files
+# MATLAB autosave files
 *.asv
+
+# DEV folder
+DEV/**
