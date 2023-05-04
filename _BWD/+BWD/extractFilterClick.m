@@ -2,7 +2,7 @@
 %
 % function "extractFilterClick"
 %   Written by WB, based on "extracFilterTimeseriesAMAR250" by SBP and JS
-%   Last updated Apr. 27, 2023, using MATLAB R2018b
+%   Last updated May. 4, 2023, using MATLAB R2018b
 %
 %   Description:
 %   Extracts audio samples from a WAV file for one click, and applies a 
@@ -41,14 +41,15 @@ function [yFiltClick, yNFiltClick] = extractFilterClick(...
     yN = yN.';
 
     % create bandpass filter
-    %%% isolate appropriate filter cutoff frequencies from list
+    %%% isolate appropriate filter cutoff frequencies and order from list
     iFiltCutoff = filtdata.SamplingRate == Fs;
     switch sum(iFiltCutoff)
         case 1
-            Fc1 = filtdata.Cutoff1(iFiltCutoff);
-            Fc2 = filtdata.Cutoff2(iFiltCutoff);
+            Fc1 = filtdata.CutoffFreq1(iFiltCutoff);
+            Fc2 = filtdata.CutoffFreq2(iFiltCutoff);
+            ord = filtdata.Order(iFiltCutoff); % Note: this is expected to be the full order, not half
         case 0
-            error('No bandpass filter cutoff frequencies have been specified for Fs=%d Hz. They must be added to "FilterCutoffs.mat" before click compilation can be run on this dataset.', Fs)
+            error('No bandpass filter parameters have been specified for Fs=%d Hz. They must be added using "editFilterParams" before click compilation can be run on this dataset.', Fs)
         otherwise
             error('More than one bandpass filter cutoff frequency specification exists for Fs=%d Hz; cannot determine which one to use.', Fs)
     end
@@ -75,9 +76,9 @@ function [yFiltClick, yNFiltClick] = extractFilterClick(...
         otherwise
             error('Unsupported sampling rate')
     end
-    %}
     %%% filter order (full, not half)
     ord = 10;
+    %}
     %%% filter coefficients
     [B,A] = butter(ord/2, [Fc1,Fc2]/(Fs/2));
     

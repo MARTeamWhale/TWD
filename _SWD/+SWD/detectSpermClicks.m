@@ -2,7 +2,7 @@
 %
 % function "detectSpermClicks"
 %   Written by Wilfried Beslin
-%   Last updated Apr. 27, 2023, using MATLAB R2018b
+%   Last updated May. 4, 2023, using MATLAB R2018b
 %
 %   Description:
 %   Runs basic sperm whale click detection (CABLE detector) followed by 
@@ -49,7 +49,7 @@ function detectSpermClicks(dirPath_root, dirPath_analysis, dirPath_audio, detPro
     FsAMAR = wavInfo1.SampleRate;
     
     % load filter cutoff frequencies
-    load(fullfile(dirPath_root,'FilterCutoffs.mat'), 'filtdata');
+    load(fullfile(dirPath_root,'BandpassFilterParams.mat'), 'filtdata');
     
     % determine standard filter cutoff frequencies based on dataset sampling rate
     iFiltCutoff = filtdata.SamplingRate == FsAMAR;
@@ -57,8 +57,9 @@ function detectSpermClicks(dirPath_root, dirPath_analysis, dirPath_audio, detPro
         case 1
             Fc1 = filtdata.Cutoff1(iFiltCutoff);
             Fc2 = filtdata.Cutoff2(iFiltCutoff);
+            ord = filtdata.Order(iFiltCutoff);
         case 0
-            error('No bandpass filter cutoff frequencies have been specified for Fs=%d Hz. They must be added to "FilterCutoffs.mat" before click compilation can be run on this dataset.', Fs)
+            error('No bandpass filter cutoff frequencies have been specified for Fs=%d Hz. They must be added using "editFilterParams" before click compilation can be run on this dataset.', Fs)
         otherwise
             error('More than one bandpass filter cutoff frequency specification exists for Fs=%d Hz; cannot determine which one to use.', Fs)
     end
@@ -112,7 +113,7 @@ function detectSpermClicks(dirPath_root, dirPath_analysis, dirPath_audio, detPro
     dFilt.Standard = designfilt('bandpassiir',...
         'DesignMethod','butter',...
         'SampleRate',FsAMAR,...
-        'FilterOrder',10,...
+        'FilterOrder',ord,...
         'HalfPowerFrequency1',Fc1,...
         'HalfPowerFrequency2',Fc2);
     %%% Narrowband filter to help see clicks during validation; similar to

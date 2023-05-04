@@ -2,7 +2,7 @@
 %
 % function "SWD.run"
 %   Written by Wilfried Beslin
-%   Last updated Oct. 13, 2022, using MATLAB R2018b
+%   Last updated May. 4, 2023, using MATLAB R2018b
 %
 %   Description:
 %   Main function for running sperm whale click detector. Takes detection 
@@ -32,7 +32,7 @@ function run(...
 
     % run click detection
     if doClickDet
-        SWD.detectSpermClicks(dirPath_root,dirPath_analysis,dirPath_audio,detProtocol,depName,nfft,nMATClicksMax,segDur);
+        SWD.detectSpermClicks(dirPath_root, dirPath_analysis, dirPath_audio, detProtocol, depName, nfft, nMATClicksMax, segDur);
     else
         % check the detection protocol that was used
         detProtocol_mat = TWD_Common.readProtocolTextFile(fullfile(dirPath_analysis,'mat'));
@@ -53,7 +53,7 @@ function run(...
     
     % run event detection
     if doEventDet
-        SWD.detectSpermEvents(dirPath_root,dirPath_analysis,detProtocol,dirName_detResults,depName);
+        SWD.detectSpermEvents(dirPath_root, dirPath_analysis, detProtocol, dirName_detResults, depName);
     end
     
     % finished

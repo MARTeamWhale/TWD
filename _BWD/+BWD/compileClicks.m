@@ -2,7 +2,7 @@
 %
 % function "compileClicks"
 %   Written by WB, based on "analyze_HARP_AMAR250" by SBP and JS
-%   Last updated Apr. 27, 2023, using MATLAB R2018b
+%   Last updated May. 4, 2023, using MATLAB R2018b
 %
 %   Description:
 %   Extracts click data from WAV files based on Triton detections (cTg 
@@ -29,7 +29,7 @@ function compileClicks(dirPath_root, dirPath_analysis, dirPath_audio, depName, n
     nFiles = numel(fileNames_wav);
     
     % load filter cutoff frequencies
-    load(fullfile(dirPath_root,'FilterCutoffs.mat'), 'filtdata')
+    load(fullfile(dirPath_root,'BandpassFilterParams.mat'), 'filtdata')
     
     % define output directory and check if there is existing output
     if isfolder(dirPath_out)
